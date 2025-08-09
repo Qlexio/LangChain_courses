@@ -1,0 +1,72 @@
+/*
+- "timeframe X" (int) is the timeframe on which the returns are made or calculated. There must be a short term timeframe and a higher one, e.g. 5 mn and 1 h (60 mn).
+- "support X" (float) is the technical support of the graph. Higher is X, farer is the support line below the reference point.
+- "resistance X" (float) is the technical resistance of the graph. Higher is X, farer is the resistance line above the reference point.
+- "graphical trend" ("+", "." or "-") is the direction of the graphical trend for the related timeframe.
+- "RSI trend" ("+", "." or "-") is the direction of the RSI trend for the related timeframe.
+- "MACD" ("+", "." or "-") is the direction of the MACD trend for the related timeframe.
+- Bollinger bands or similar (?).
+- Volume analysis (?).
+
+Notes:
+- The type of the returned datas must be clearly thought to define the well related data base.
+- Trends, previously defined with "+" (increase), "." (no trend), "-" (decrease) can also be done with trignometic values (the same than on a trigonometric circle).
+  Using trigonometric values can lead to define polynomila functions; a reference point might be needed and as x axis is a discret axis and y axis a continuous axis 
+    both on different values, the axes might be scaled for coherency.
+  For example, in the case of trigonometric values, it can be returned in a list of X, Y tuple: [(x1, y1), (x2, y2), (x3, y3), ...]
+  Also symbols ("+" and "-") can eventually be repeated up to 5 times according to the strengh of the trend.
+  Trends can be an hybrid of trigonometric values and symbols.
+  
+*/
+{
+    "ticker": {
+        "name": "name_of_the_company",
+        "isin": "XXXXXXXXX",
+        "time": "datetime_format",
+        "short_timeframe":
+            {
+                "timeframe": 5,
+                "support_1": 0.001,
+                "support_2": 0.001,
+                "support_3": 0.001,
+                "resistance_1": 0.001,
+                "resistance_2": 0.001,
+                "resistance_3": 0.001,
+                "graphical_trend": "+",  // or [(0, 1 / 2), (1, sqrt(2) / 2), ...]
+                "rsi_trend": "+",  // or [(0, 1 / 2), (1, sqrt(2) / 2), ...]
+                "macd_trend": "+",  // or [(0, 1 / 2), (1, sqrt(2) / 2), ...]
+                "bollinger_bands": "to define",
+                "volume": "to define",
+            },
+        "long_timeframe":
+            {
+                "timeframe": 60,
+                "support_1": 0.001,
+                "support_2": 0.001,
+                "support_3": 0.001,
+                "resistance_1": 0.001,
+                "resistance_2": 0.001,
+                "resistance_3": 0.001,
+                "graphical_trend": "+",  // or [(0, 1 / 2), (1, sqrt(2) / 2), ...]
+                "rsi_trend": "+",  // or [(0, 1 / 2), (1, sqrt(2) / 2), ...]
+                "macd_trend": "+",  // or [(0, 1 / 2), (1, sqrt(2) / 2), ...]
+                "bollinger_bands": "to define",
+                "volume": "to define",
+            },
+        "synthese":
+        {
+            "timeframe": "Synthese on the support",
+            "support_1": "Synthese on the support of both timeframes",
+            "support_2": "Synthese on the support of both timeframes",
+            "support_3": "Synthese on the support of both timeframes",
+            "resistance_1": "Synthese on the resistance of both timeframes",
+            "resistance_2": "Synthese on the resistance of both timeframes",
+            "resistance_3": "Synthese on the resistance of both timeframes",
+            "graphical_trend": "Synthese on the graphical trend of both timeframes",
+            "rsi_trend": "Synthese on the RSI trend of both timeframes",
+            "macd_trend": "Synthese on the MACD trend of both timeframes",
+            "bollinger_bands": "Synthese on the Bollinger bands trend of both timeframes",
+            "volume": "Synthese on the volume trend of both timeframes",
+        }
+    }
+}

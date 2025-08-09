@@ -1,0 +1,67 @@
+Feuille de Route : Maîtrise de LangChain et Systèmes Multi-Agents en 90 Jours
+Objectif Hybride : Maîtriser LangChain et les Systèmes Multi-Agents en développant des compétences de construction d'agents aux capacités réutilisables et de conception d'architectures d'orchestration flexibles, en utilisant la création d'une équipe d'analyse de trading multi-agents comme cas d'usage principal et complexe.
+
+Semaine 1 : Les Fondations Indispensables (Modèles, Prompts, Parsers, LCEL Basique) - EN COURS
+
+Vues & Maîtrisées (avec application pratique et débogage) :
+Modèle mental de LangChain, Chargement de Modèles (Ollama).
+Prompts (ChatPromptTemplate, variables, injection d'instructions).
+Output Parsers (PydanticOutputParser, génération d'instructions get_format_instructions).
+LCEL (chaînes simples Prompt | Model | Parser).
+Conception de sorties structurées complexes (vos structures JSON détaillées).
+Codage de modèles Pydantic complexes (y compris sous-modèles et Enums).
+Stratégie de division du parsing pour gérer la complexité/ressources (appliquée et validée sur la structure Technique).
+Codage fonctionnel des chaînes Prompt->Model->Parser pour les parties divisées de la structure Technique (Court terme, Long terme, Synthèse globale).
+À voir et Maîtriser dans la Semaine 1 :
+Rendre les chaînes de parsing robustes en intégrant les parsers de correction (OutputFixingParser, RetryWithError) - À COMMENCER DEMAIN.
+Coder une autre structure de sortie structurée (pour l'agent Sentiment/Nouvelles ou ESG/Carbone) pour ancrer la compétence de modélisation et parsing sur un deuxième exemple - À FAIRE APRÈS LES CORRECTEURS.
+Semaine 2 : LCEL Avancé et Manipulation de Données - À VENIR
+
+À voir :
+Approfondir LCEL : chaînes parallèles, branches conditionnelles, gestion des erreurs avec LCEL.
+Introduction aux Runnables (la base de LCEL).
+Chargement et traitement basique de données (Document Loaders, Text Splitters).
+Semaines 3 & 4 : Récupération d'Information (RAG) - À VENIR
+
+À voir :
+Comprendre et utiliser les Embeddings.
+Mettre en place des Vector Stores (bases de données vectorielles).
+Construire des chaînes RAG simples pour interroger vos propres documents.
+Semaines 5 & 6 : Mémoire et Agents (Fondations) - À VENIR
+
+À voir :
+Comprendre et implémenter la gestion de la Mémoire dans LangChain.
+Comprendre le concept central d'Agent (raisonnement, action, cycle).
+Découvrir et utiliser les Outils (Tools) essentiels.
+Construire des agents simples capables d'utiliser des outils basiques.
+Semaines 7 & 8 : Agents Avancés et Début de l'Orchestration - À VENIR
+
+À voir :
+Techniques avancées de prompting pour agents.
+Création d'outils complexes et spécifiques (ex: outils de calcul ou d'accès à des APIs pour le trading).
+Introduction aux architectures multi-agents : concepts de communication et de coordination simple.
+Semaines 9 & 10 : Orchestration Multi-Agents (Conception et Patrons) - À VENIR
+
+À voir :
+Concevoir des workflows multi-agents plus complexes.
+Explorer des patrons de collaboration et de délégation entre agents.
+Comprendre les frameworks d'orchestration dédiés (LangGraph, CrewAI, AutoGen).
+Semaines 11 & 12 : Construction du Système Multi-Agents Traders (Application du Projet) - À VENIR
+
+À voir :
+Intégrer toutes les briques vues (Prompts structurés, Parsers, Outils, Mémoire) dans vos agents spécifiques traders.
+Mettre en place l'architecture d'orchestration pour que vos agents collaborent vers une décision de trading.
+Coder le système complet.
+Semaine 13 : Finalisation, Amélioration et Perspectives - À VENIR
+
+À voir :
+Peaufiner le système, gérer les cas d'erreurs avancés.
+Analyse critique de votre implémentation par rapport aux frameworks existants.
+Planifier la suite de votre parcours dans ce domaine.
+Comme vous le voyez, vous avez solidement avancé dans les fondations de la Semaine 1. Le temps passé sur la sortie structurée et les parsers est directement un investissement dans votre capacité à construire des agents et des systèmes multi-agents fiables, car la communication structurée est leur langage.
+
+Votre prochaine étape, dès demain, est claire : renforcer la robustesse de vos chaînes de parsing actuelles avec OutputFixingParser ou RetryWithError.
+
+Le plan est en place. Continuez d'avancer méthodiquement, micro-tâche par micro-tâche.
+
+Bonne soirée à vous, et à demain pour la suite de la Semaine 1 !

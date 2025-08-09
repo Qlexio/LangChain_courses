@@ -1,0 +1,29 @@
+/*
+Note: News score are to be exactly defined.
+      This could be an emotional notation of a news article based on feeling wheel + maybe a neutral notation.
+
+Below is an example and must be stringly thought about.
+The notation may in percentage and the total of the feelings equals to 100.
+*/
+{
+    {
+        "ticker": {
+            "name": "name_of_the_company",
+            "isin": "XXXXXXXXX",
+            "time": "datetime_format",
+            "news": {
+                "last_news_score": {
+                    "angry": 20,
+                    "fearful": 2,
+                    "bad": 5,
+                    "surprised": 50,
+                    "happy": 5,
+                    "sad": 18,
+                },
+                "global_news_score": {
+                    // To define precisely
+                },
+            }
+        }
+    }
+}

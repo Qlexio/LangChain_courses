@@ -1,0 +1,173 @@
+/*
+class ESGRiskLevel(enum.Enum):
+    """List of the ESG risk levels.
+    
+    The higher the rating, the greater the risk. Maximum value is 100.
+    - 0-10: Negligible
+    - 10-20: Weak
+    - 20-30: Medium
+    - 30-40: High
+    - 40+: Serious
+    """
+    NEGLIGIBLE = "NEGLIGIBLE"
+    WEAK = "WEAK"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    SERIOUS = "SERIOUS"
+
+***
+- "esg_exposure_risk" (float) is the exposure to ESG risks of the company depending on the industry in which it operates, its business model, 
+  its operational environment (e.g. geographical area), its range of products and services, the controversies to which it is exposed. 
+  The higher the rating, the greater the risk.
+
+class ExposureRiskLevel(enum.Enum):
+    """List of the ESG exposure risk levels.
+    
+    The higher the rating, the greater the risk. Maximum value is 100.
+    - 0-35: Low
+    - 35-55: Medium
+    - 55-100: High
+    """
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+
+***
+  - "management_score" (float) is the part of ESG risk considered manageable by the company and which is actually managed by it. 
+  Certain ESG risks cannot therefore be addressed by the company without changing its business model or without technological innovation 
+  (e.g. air transport). The higher the rating, the better this risk is managed by the company.
+
+class ESGManagementScore(enum.Enum):
+    """List of the ESG management score levels.
+    
+    The higher the rating, the better this risk is managed by the company. Maximum value is 100.
+    - 0-25: Low
+    - 25-50: Medium
+    - 50-100: High
+    """
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+
+***
+- "carbon_risk" (float) is the carbon risk that could impact the financial performance of the company. The higher the rating, the greater the risk.
+- "scope_1" concerns all greenhouse gases emitted directly by the company in tonnes of CO2 for example emissions linked to equipment and installations, 
+  office heating or emissions linked to the combustion of fuel from vehicles owned by the company.
+- "scope_2" concerns indirect emissions linked to energy in tonnes of CO2: these are emissions linked to the production of energy used by the company 
+  during the production process. They depend on the primary energy source used to produce them (oil, nuclear, renewable energies).
+
+class CarbonEmissionsLevel(enum.Enum):
+    """List of the ESG risk levels.
+    
+    The higher the rating, the greater the risk. Maximum value is 100.
+    - 0: Negligible
+    - >0-10: Weak
+    - 10-30: Medium
+    - 30-50: High
+    - 50+: Serious
+    """
+    NEGLIGIBLE = "NEGLIGIBLE"
+    WEAK = "WEAK"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    SERIOUS = "SERIOUS"
+
+***
+class TradingActions(enum.Enum):
+    """List of trading actions."""
+    BUY = "BUY"
+    OUTPERFORM = "OUTPERFORM"
+    HOLD = "HOLD"
+    UNDERPERFORM = "UNDERPERFORM"
+    SELL = "SELL"
+
+class RisksLevel(enum.Enum):
+    """List of the risk levels.
+    
+    The higher the rating, the greater the risk. Maximum value is 100.
+    - 0: Negligible
+    - >0-10: Weak
+    - 10-20: Medium Weak
+    - 20-30: Medium
+    - 30-40: Medium High
+    - 40-50: High
+    - 50+: Serious
+    """
+    NEGLIGIBLE = "NEGLIGIBLE"
+    WEAK = "WEAK"
+    MEDIUM_WEAK = "MEDIUM WEAK"
+    MEDIUM = "MEDIUM"
+    MEDIUM_HIGH = "MEDIUM HIGH"
+    HIGH = "HIGH"
+    SERIOUS = "SERIOUS"
+
+  */
+{   // Example value from LVMH
+[]    "name": "name_of_the_company",
+[]    "isin": "XXXXXXXXX",
+[]    "time": "datetime_format",
+[x]    "sustainability_risk": {
+[x]        "esg_risk_evaluation": "",  // (str) ESG risk evaluation according to environmental, societal and governance evaluations
+[x]        "esg_risk_level": "",  // (enum) Level of the ESG risk, Type of level: ESGRiskLevel
+[x]        "environmental_issues_evaluation": "",  // (str) Evaluation of the environmental part of ESG risk
+[x]        "societal_issues_evaluation": "",  // (str) Evaluation of the societal part of ESG risk
+[x]        "governance_issues_evaluation": "",  // (str) Evaluation of the governance part of ESG risk
+[x]        "raw_tool_data": {  // Raw values may be reused later
+[x]            "global_notation_value": 13.9,  // (float) ESG risk global notation in percentage
+[x]            "environmental_issues_value": 6,  // (float) Environmental part of ESG risk in percentage
+[x]            "societal_issues_value": 51,  // (float) Societal part of ESG risk in percentage
+[x]            "governance_issues_value": 43,  // (float) Governance part of ESG risk in percentage
+[x]        },
+[x]    },
+[x]    "exposure_risk": {
+[x]        "esg_exposure_risk_evaluation": "",  // (str) ESG exposure risk evaluation
+[x]        "esg_exposure_risk_level": "",  // (enum) Level of the ESG exposure risk. Type of level: ExposureRiskLevel
+[x]        "raw_tool_data": {
+[x]          "exposure_risk_value": 28.1,  // ESG risk exposure of the company in percentage
+[x]        },
+[x]    },
+[x]    "management_score": {
+[x]        "esg_management_score_evaluation": "",  // (str) ESG management score evaluation.
+[x]        "esg_management_score_level": "",  // (enum)  Level of the ESG management. Type of level: ESGManagementScore
+[x]        "raw_tool_data": {
+[x]          "management_score_value": 54.4,  //  ESG risk manageable by the company
+[x]        },
+[x]    },
+[x]    "carbon_emissions": {
+[x]        "carbon_emissions_evaluation": "",  // (str) Evaluation of the carbon emissions according to the years 1, 2 and 3 emissions values
+[x]        "carbon_emissions_risk_level": "",  // (enum) Level of the carbon emission risk. Type of level: CarbonEmissionsLevel
+[x]        "raw_tool_data": {
+[x]            "carbon_risk_value": 0,  // In percentage
+[x]            "year-1_value": {
+[x]                "total": 305_350,  // Scope 1 + Scope 2
+[x]                "scope_1": 146_568,
+[x]                "scope_2": 158_782,
+[x]            },
+[x]            "year-2_value": {
+[x]                "total": 329_417,
+[x]                "scope_1": 65_883,
+[x]                "scope_2": 263_534,
+[x]            },
+[x]            "year-3_value": {
+[x]                "total": 375_740,
+[x]                "scope_1": 304_349,
+[x]                "scope_2": 71_391,
+[x]            },
+[x]        },
+[x]    },
+[x]    "activities_involvements": {
+[x]        "positive_involvements_evaluation": "",  // (str) Evaluation of involvements in activities with a positive impact.
+[x]        "negative_involvements_evaluation": "",  // (str) Evaluation of involvements in activities with a negative impact.
+[x]        "controversies_risk_evaluation": "",  // (str) Evaluation of involvements in controversies.
+[x]        "raw_tool_data": {
+[x]            "positive_involvements_value": 0,  // (int) Involvements in activities with a positive impact. Notation out of 12, e.g. 0/12
+[x]            "negative_involvements_value": 1,  // (int) Involvements in activities with a negative impact. Notation out of 23, e.g. 1/23
+[x]            "controversies_risk_value": 2,  // (int) Risk linked to controversies. Notation out of 5, e.g. 2/5
+[x]        },
+[x]    },
+[x]    "synthesis": {
+[x]        "conclusion": "",  // (str) Conclusion about the impact of the previous values on the market
+[x]        "synthesis_trading_action": "",  // (enum) Action to take. Type of action: TradingAction.
+[x]        "synthesis_risk": "",  // (enum) Risk level according to the conclusion. Type of level: RisksLevel
+[x]    }
+}

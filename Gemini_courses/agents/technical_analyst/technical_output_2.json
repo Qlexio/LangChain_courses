@@ -1,0 +1,343 @@
+/*
+- "timeframe X" (int) is the timeframe on which the returns are made or calculated. There must be a short term timeframe and a higher one, e.g. 5 mn and 1 h (60 mn).
+- Raw values are important to be kept if I want to reused them later elsewhere.
+
+***
+class TrendCategories(enum.Enum):
+    """List of actionnables for the trends."""
+    STRONG_BULLISH = "STRONG_BULLISH"
+    BULLISH = "BULLISH"
+    CONSOLIDATION = "CONSOLIDATION"
+    BEARISH = "BEARISH"
+    STRONG_BEARISH = "STRONG_BEARISH"
+
+Types of trends:
+- Strong bullish: Stong upward trend.
+- Bullish: Upward trend.
+- Ligth bullish: Light upward trend. To keep? Ask Gemini thoughts about it.
+- Consolidation: Neither upward nor downward trend.
+- Light bearish: Light downward trend. To keep? Ask Gemini thoughts about it.
+- Bearish: Downward trend.
+- Strong bearish: Strong downward trend.
+
+Types of trend's length:
+- Primary – Long-term (i.e., 1 year or longer): the tide in Dow's explanation
+- Secondary – Intermediate (i.e., 1 to 3 months): the waves
+- Minor – Short-term (i.e., less than 1 month): the ripples
+
+Some trends properties:
+- Trends and/or trend lines define the direction of the market.
+- Trend lines also act like support and resistance. At least, 2 points are required to draw a trend line so, 
+  the minimum number of touch of the trend line as support or resistance is at least 2.
+- Higher the number of touches of the trend line, stronger the trend line acts as support and/or resistance with at least 2 touches required to draw the trend line.
+
+
+***
+class TradingActions(enum.Enum):
+    """List of trading actions."""
+    BUY = "BUY"
+    OUTPERFORM = "OUTPERFORM"
+    HOLD = "HOLD"
+    UNDERPERFORM = "UNDERPERFORM"
+    SELL = "SELL"
+
+Types of trading actions:
+- Buy: Also known as strong buy and "on the recommended list." Needless to say, buy is a recommendation to purchase a specific security.
+- Sell: Also known as strong sell, it's a recommendation to sell a security or to liquidate an asset.
+- Hold: In general terms, a company with a hold recommendation is expected to perform at the same pace as comparable companies or in line with the market.
+- Underperform: A recommendation that means a stock is expected to do slightly worse than the overall stock market return. Underperform can also be 
+  expressed as "moderate sell," "weak hold," and "underweight."
+- Outperform: Also known as "moderate buy," "accumulate," and "overweight." Outperform is an analyst recommendation meaning a stock is expected to do 
+  slightly better than the market return.
+
+
+***
+class SupportResistanceInteractionStatus(enum.Enum):
+    """List of support/resistance status."""
+    PRICE_ABOVE_SUPPORT = "PRICE_ABOVE_SUPPORT"
+    TESTING_SUPPORT = "TESTING_SUPPORT"
+    BREAKING_BELOW_SUPPORT = "BREAKING_BELOW_SUPPORT"
+    PRICE_BELOW_RESISTANCE = "PRICE_BELOW_RESISTANCE"
+    TESTING_RESISTANCE = "TESTING_RESISTANCE"
+    BREAKING_ABOVE_RESISTANCE = "BREAKING_ABOVE_RESISTANCE"
+    CONSOLIDATING_NEAR_SUPPORT_RESISTANCE = "CONSOLIDATING_NEAR_SUPPORT_RESISTANCE"
+
+Catégories d'État d'Interaction Support/Résistance (current_sr_status) :
+- PRICE_ABOVE_SUPPORT : Le prix est au-dessus d'un support identifié, indiquant une position de force relative.
+- TESTING_SUPPORT : Le prix approche ou touche un support, suggérant une zone de réaction potentielle pour un rebond.
+- BREAKING_BELOW_SUPPORT : Le prix franchit un support à la baisse, souvent vu comme un signal baissier.
+- PRICE_BELOW_RESISTANCE : Le prix est en dessous d'une résistance identifiée, indiquant une zone de faiblesse relative ou un obstacle.
+- TESTING_RESISTANCE : Le prix approche ou touche une résistance, suggérant une zone de réaction potentielle pour un repli.
+- BREAKING_ABOVE_RESISTANCE : Le prix franchit une résistance à la hausse, souvent vu comme un signal haussier.
+- CONSOLIDATING_NEAR_SR : Le prix évolue latéralement dans une zone étroite proche d'un niveau clé de support ou de résistance.
+
+class SupportResistanceInteractionImplication(enum.Enum):
+    """List of support/resistance interaction implication."""
+    POTENTIAL_BUY_ZONE = "POTENTIAL_BUY_ZONE"
+    STOP_LOSS_ZONE = "STOP_LOSS_ZONE"
+    POTENTIAL_SELL_ZONE = "POTENTIAL_SELL_ZONE"
+    TAKE_PROFIT_ZONE = "TAKE_PROFIT_ZONE"
+    CONFIRMATION_SIGNAL = "CONFIRMATION_SIGNAL"
+
+Catégories d'Implication Support/Résistance (sr_implication) :
+POTENTIAL_BUY_ZONE : La situation technique suggère une zone où l'achat pourrait être envisagé (souvent près d'un support).
+STOP_LOSS_ZONE : La situation technique indique un niveau où envisager de clôturer une position pour limiter les pertes (souvent sous un support cassé).
+POTENTIAL_SELL_ZONE : La situation technique suggère une zone où la vente pourrait être envisagée (souvent près d'une résistance).
+TAKE_PROFIT_ZONE : La situation technique indique un niveau où envisager de prendre ses bénéfices (souvent près d'une résistance).
+CONFIRMATION_SIGNAL : La situation technique (comme un franchissement décisif) valide une direction anticipée du prix.
+
+
+Notes:
+- The type of the returned datas must be clearly thought to define the well related data base.
+- Trends can be defined with "+" (upward trend), "." (no trend), "-" (downward trend).
+  Trend's symbols ("+" and "-") can eventually be repeated up to 5 times according to the strengh of the trend.
+
+/!\ Les sous-champs "key_evaluation" pourraient être nommés "key_comment" pour être plus pertinents.
+*/
+{
+[X]  "name_of_the_company": "",  // (str) Name of the company
+[X]  "isin_of_the_company": "XXXXXXXXX",  // (str) ISIN code of the company
+[X]  "time_of_the report": "",  //(str) datetime of the current report
+[X]  "short_timeframe_data": {
+[X]      "data_timeframe": 5, // (int) Value in minutes of graph timeframe used as reference for the next values
+[X]      "supports_evaluation": {
+[X]          "supports_evaluation": "",  // (str) Maybe replace the key by "supports_trend". Global evaluation of the supports
+[X]          "support_interaction_status": "",  // (enum) Category of the support status, Type of category: SupportResistanceInteractionStatus
+[X]          "support_interaction_implication": "",  // (enum) Category of the support implication, Type of category: SupportResistanceInteractionImplication
+[X]          "close_support_level": "",  // (str) Evaluation and/or value of the closiest support
+[X]          "middle_support_level": "",  // (str) Evaluation and/or value of the middle support
+[X]          "far_support_level": "",  // (str) Evaluation and/or value of the farest support
+[X]          "raw_tool_data": {  // Raw values may be reused later
+[X]              "close_support_value": 0.001,  // (float) Raw value of the closiest support
+[X]              "middle_support_value": 0.001,  // (float) Raw value of the middle support
+[X]              "far_support_value": 0.001,  // (float) Raw value of the farest support
+[X]          }
+[X]      },
+[X]      "resistances_evaluation": {
+[X]          "resistances_evaluation": "",  // (str) Maybe replace the key by "resistances_trend". Global evaluation of the resistances
+[X]          "resistance_interaction_status": "",  // (enum) Category of the resistance status, Type of category: SupportResistanceInteractionStatus
+[X]          "resistance_interaction_implication": "",  // (enum) Category of the resistance implication, Type of category: SupportResistanceInteractionImplication
+[X]          "close_resistance_level": "",  // (str) Evaluation and/or value of the closiest resistance
+[X]          "middle_resistance_level": "",  // (str) Evaluation and/or value of the middle resistance
+[X]          "far_resistance_level": "",  // (str) Evaluation and/or value of the farest resistance
+[X]          "raw_tool_data": {  // Raw values may be reused later
+[X]              "close_resistance_value": 0.001,  // (float) Raw value of the closiest resistance
+[X]              "middle_resistance_value": 0.001,  // (float) Raw value of the middle resistance
+[X]              "far_resistance_value": 0.001,  // (float) Raw value of the farest resistance
+[X]          }
+[X]      },
+[X]      "prices_evaluation": {
+[X]          "prices_trend_evaluation": "",  // (str) Prices trend on the graph.
+[X]          "prices_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]          "primary_prices_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]          "primary_prices_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "secondary_prices_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]          "secondary_prices_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "minor_prices_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]          "minor_prices_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "chart_pattern": "",  // (str) Description of the chart pattern if any
+[X]          "potential_chart_pattern": "",  // (str) Description of potentials coming chart pattern to focus on if any 
+[X]          "candlestick_pattern": "",  // (str) Description of the candlestick pattern if any
+[X]          "potential_candlestick_pattern": "",  // (str) Description of potentials coming candlestick pattern to focus on if any
+[X]      },
+[X]      "indicators": {
+[X]          "rsi_evaluation": {
+[X]              "rsi_trend": "",  // (str) RSI trend on the graph
+[X]              "rsi_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]              "primary_rsi_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]              "primary_rsi_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "secondary_rsi_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]              "secondary_rsi_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "minor_rsi_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]              "minor_rsi_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "raw_tool_data": {
+[X]                  "rsi_value": 0.001  // (float)
+[X]              }
+[X]          },
+[X]          "macd_evaluation": {
+[X]              "macd_trend": "",  // (str) MACD trend on the graph
+[X]              "macd_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]              "primary_macd_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]              "primary_macd_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "secondary_macd_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]              "secondary_macd_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "minor_macd_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]              "minor_macd_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "raw_tool_data": {
+[X]                  "short_moving_average_value": 0.001,  // (float)
+[X]                  "long_moving_average_value": 0.001,  // (float)
+[X]                  "signal_line_value": 0.001,  // (float)
+[X]              }
+[X]          },
+[X]          "bollinger_bands_evaluation": {  // This is a draft
+[X]              "bollinger_bands_trend": "",  // (str) Bollinger bands trend on the graph
+[X]              "bollinger_bands_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]              "primary_bollinger_bands_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]              "primary_bollinger_bands_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the 
+[X]                                                                      // trend either as support or resistance.
+[X]              "secondary_bollinger_bands_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]              "secondary_bollinger_bands_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "minor_bollinger_bands_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]              "minor_bollinger_bands_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "raw_tool_data": {
+[X]                  "moving_average_value": 0.001,  // (float)
+[X]                  "above_standard_deviation_value": 0.001,  // (float)
+[X]                  "below_standard_deviation_value": 0.001,  // (float)
+[X]              }
+[X]          }
+[X]      },
+[X]      "volume_evaluation": {
+[X]          "volume_trend_evaluation": "",  // (str) Volume trend on the graph. My personnal knowledges about how to handle volumes are limited. 
+[X]                                          // I must dig the subject to be more specific.
+[X]          "volume_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]          "primary_volume_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]          "primary_volume_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "secondary_volume_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]          "secondary_volume_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                      // support or resistance.
+[X]          "minor_volume_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]          "minor_volume_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]      },
+[X]      "short_timeframe_data_synthesis": "",  // (str) Synthesis and conclusion of the timeframe.
+[X]      "short_timeframe_data_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]  },
+[X]  "long_timeframe_data": {
+[X]      "data_timeframe": 60, // (int) Value in minutes of graph timeframe used as reference for the next values
+[X]      "supports_evaluation": {
+[X]          "supports_evaluation": "",  // (str) Maybe replace the key by "supports_trend". Global evaluation of the supports
+[X]          "support_interaction_status": "",  // (enum) Category of the support status, Type of category: SupportResistanceInteractionStatus
+[X]          "support_interaction_implication": "",  // (enum) Category of the support implication, Type of category: SupportResistanceInteractionImplication
+[X]          "close_support_level": "",  // (str) Evaluation and/or value of the closiest support
+[X]          "middle_support_level": "",  // (str) Evaluation and/or value of the middle support
+[X]          "far_support_level": "",  // (str) Evaluation and/or value of the farest support
+[X]          "raw_tool_data": {  // Raw values may be reused later
+[X]              "close_support_value": 0.001,  // (float) Raw value of the closiest support
+[X]              "middle_support_value": 0.001,  // (float) Raw value of the middle support
+[X]              "far_support_value": 0.001,  // (float) Raw value of the farest support
+[X]          }
+[X]      },
+[X]      "resistances_evaluation": {
+[X]          "resistances_evaluation": "",  // (str) Maybe replace the key by "resistances_trend". Global evaluation of the resistances
+[X]          "resistance_interaction_status": "",  // (enum) Category of the resistance status, Type of category: SupportResistanceInteractionStatus
+[X]          "resistance_interaction_implication": "",  // (enum) Category of the resistance implication, Type of category: SupportResistanceInteractionImplication
+[X]          "close_resistance_level": "",  // (str) Evaluation and/or value of the closiest resistance
+[X]          "middle_resistance_level": "",  // (str) Evaluation and/or value of the middle resistance
+[X]          "far_resistance_level": "",  // (str) Evaluation and/or value of the farest resistance
+[X]          "raw_tool_data": {  // Raw values may be reused later
+[X]              "close_resistance_value": 0.001,  // (float) Raw value of the closiest resistance
+[X]              "middle_resistance_value": 0.001,  // (float) Raw value of the middle resistance
+[X]              "far_resistance_value": 0.001,  // (float) Raw value of the farest resistance
+[X]          }
+[X]      },
+[X]      "prices_evaluation": {
+[X]          "prices_trend_evaluation": "",  // (str) Prices trend on the graph
+[X]          "prices_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]          "primary_prices_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]          "primary_prices_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "secondary_prices_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]          "secondary_prices_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "minor_prices_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]          "minor_prices_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "chart_pattern": "",  // (str) Description of the chart pattern if any
+[X]          "potential_chart_pattern": "",  // (str) Description of potentials coming chart pattern to focus on if any 
+[X]          "candlestick_pattern": "",  // (str) Description of the candlestick pattern if any
+[X]          "potential_candlestick_pattern": "",  // (str) Description of potentials coming candlestick pattern to focus on if any
+[X]      },
+[X]      "indicators": {
+[X]          "rsi_evaluation": {
+[X]              "rsi_trend": "",  // (str) RSI trend on the graph
+[X]              "rsi_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]              "primary_rsi_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]              "primary_rsi_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "secondary_rsi_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]              "secondary_rsi_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "minor_rsi_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]              "minor_rsi_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "raw_tool_data": {
+[X]                  "rsi_value": 0.001  // (float)
+[X]              }
+[X]          },
+[X]          "macd_evaluation": {
+[X]              "macd_trend": "",  // (str) MACD trend on the graph
+[X]              "macd_trading_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]              "primary_macd_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]              "primary_macd_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "secondary_macd_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]              "secondary_macd_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "minor_macd_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]              "minor_macd_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "raw_tool_data": {
+[X]                  "short_moving_average_value": 0.001,  // (float)
+[X]                  "long_moving_average_value": 0.001,  // (float)
+[X]                  "signal_line_value": 0.001,  // (float)
+[X]              }
+[X]          },
+[X]          "bollinger_bands_evaluation": {  // This is a draft
+[X]              "bollinger_bands_trend": "",  // (str) Bollinger bands trend on the graph
+[X]              "bollinger_bands_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]              "primary_bollinger_bands_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]              "primary_bollinger_bands_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the 
+[X]                                                                      // trend either as support or resistance.
+[X]              "secondary_bollinger_bands_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]              "secondary_bollinger_bands_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "minor_bollinger_bands_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]              "minor_bollinger_bands_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]              "raw_tool_data": {
+[X]                  "moving_average_value": 0.001,  // (float)
+[X]                  "above_standard_deviation_value": 0.001,  // (float)
+[X]                  "below_standard_deviation_value": 0.001,  // (float)
+[X]              }
+[X]          }
+[X]      },
+[X]      "volume_evaluation": {
+[X]          "volume_trend_evaluation": "",  // (str) Volume trend on the graph. My personnal knowledges about how to handle volumes are limited. 
+[X]                                          // I must dig the subject to be more specific.
+[X]          "volume_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]          "primary_volume_trend": "",  // (enum) Category of the primary trend. Type of category: TrendCategories
+[X]          "primary_volume_trend_number_of_touches": 2,  // (int) Number of times the prices touch the primary trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]          "secondary_volume_trend": "",  // (enum) Category of the secondary trend. Type of category: TrendCategories
+[X]          "secondary_volume_trend_number_of_touches": 2,  // (int) Number of times the prices touch the secondary trend. High number strenghten the trend either as 
+[X]                                                      // support or resistance.
+[X]          "minor_volume_trend": "",  // (enum) Category of the minor trend. Type of category: TrendCategories
+[X]          "minor_volume_trend_number_of_touches": 2,  // (int) Number of times the prices touch the minor trend. High number strenghten the trend either as 
+[X]                                                        // support or resistance.
+[X]      },
+[X]      "long_timeframe_data_synthesis": "",  // (str) Synthesis and conclusion of the timeframe.
+[X]      "long_timeframe_data_action": "",  // (enum) Action to take. Type of action: TradingActions
+[X]  },
+[X]  "synthese": {
+[X]      "conclusion": "",  // (str) Conclusion about the market at his time.
+[X]      "synthese_remarkable_values": {},  // (dict) Remarkables values to keep in mind as dictionary. Values of the dictionary can be anything 
+[X]                                         // (str, int, float, dict, list, etc...)
+[X]      "synthese_trading_action": "",  // (enum) Action to take. Type of action: TradingAction.
+[X]      "synthese_support_resistance_comment": "",  // (str) Comments about supports and/or resistances.
+[X]      "synthese_support_resistance_interaction_status": "",  // (enum) Category of the support status, Type of category: SupportResistanceInteractionStatus
+[X]      "synthese_support_resistance_interaction_implication": "",  // (enum) Category of the support implication, Type of 
+[X]                                                                  // category: SupportResistanceInteractionImplication
+[X]  }
+}

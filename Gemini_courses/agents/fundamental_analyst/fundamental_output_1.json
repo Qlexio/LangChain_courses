@@ -1,0 +1,7 @@
+{
+    "ticker": {
+        "name": "name_of_the_company",
+        "isin": "XXXXXXXXX",
+        "time": "datetime_format",
+    }
+}
